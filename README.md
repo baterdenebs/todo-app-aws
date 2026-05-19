@@ -26,4 +26,4 @@ Browser (S3) → API Gateway → Lambda (Python) → DynamoDB
 - [ ] Week 6 - CloudFront
 
 ## 🔗 Live URL
-http://todo-app-baterdene.s3-website-us-east-1.amazonaws.com
+http://todo-app-baterdene.s3-website-us-east-1.amazonaws.comr
