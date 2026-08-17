@@ -3,54 +3,415 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Todo App</title>
+  <title>Todo App</title>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      max-width: 500px;
-      margin: 60px auto;
-      background: #f4f4f4;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f0f2f5;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ─── AUTH CARD ─── */
+    #auth-container {
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+
+    .auth-logo {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .auth-logo h1 {
+      font-size: 26px;
+      font-weight: 700;
+      color: #1a1a2e;
+    }
+
+    .auth-logo p {
+      color: #888;
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    .auth-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1a1a2e;
+      margin-bottom: 20px;
+    }
+
+    .input-group {
+      margin-bottom: 14px;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #555;
+      margin-bottom: 6px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 15px;
+      color: #1a1a2e;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+
+    .input-group input:focus {
+      border-color: #4f46e5;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+      margin-bottom: 10px;
+    }
+
+    .btn:active { transform: scale(0.98); }
+    .btn:hover { opacity: 0.92; }
+
+    .btn-primary {
+      background: #4f46e5;
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #f0f2f5;
+      color: #4f46e5;
+    }
+
+    .btn-danger {
+      background: #ef4444;
+      color: white;
+    }
+
+    .divider {
+      text-align: center;
+      color: #aaa;
+      font-size: 13px;
+      margin: 4px 0 10px;
+    }
+
+    .message {
+    font-size: 13px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin-top: 10px;
+    display: none;
+}
+
+.message.error {
+    background: #fef2f2;
+    color: #dc2626;
+    display: block;
+}
+
+.message.success {
+    background: #f0fdf4;
+    color: #16a34a;
+    display: block;
+}
+
+    .password-hint {
+      font-size: 12px;
+      color: #aaa;
+      margin-top: 4px;
+    }
+
+    /* ─── APP ─── */
+    #app-container {
+      display: none;
+      width: 100%;
+      max-width: 560px;
       padding: 20px;
     }
-    h1 { text-align: center; color: #333; }
-    input {
-      width: 75%;
-      padding: 10px;
-      font-size: 16px;
-    }
-    button {
-      padding: 10px 15px;
-      font-size: 16px;
-      background: #4CAF50;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    ul { list-style: none; padding: 0; margin-top: 20px; }
-    li {
+
+    .app-header {
       background: white;
-      padding: 12px;
-      margin-bottom: 8px;
+      border-radius: 16px;
+      padding: 16px 20px;
       display: flex;
       justify-content: space-between;
-      border-radius: 4px;
+      align-items: center;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
     }
-    .delete-btn {
-      background: #e74c3c;
+
+    .app-header-left h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a1a2e;
+    }
+
+    .app-header-left p {
+      font-size: 13px;
+      color: #888;
+      margin-top: 2px;
+    }
+
+    .logout-btn {
+      padding: 8px 16px;
+      background: #fef2f2;
+      color: #ef4444;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .logout-btn:hover { background: #fee2e2; }
+
+    .add-todo-card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      display: flex;
+      gap: 10px;
+    }
+
+    .add-todo-card input {
+      flex: 1;
+      padding: 12px 14px;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .add-todo-card input:focus {
+      border-color: #4f46e5;
+    }
+
+    .add-btn {
+      padding: 12px 20px;
+      background: #4f46e5;
       color: white;
       border: none;
-      padding: 4px 10px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
       cursor: pointer;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+    }
+
+    .add-btn:hover { opacity: 0.9; }
+
+    .todos-card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+
+    .todos-header {
+      font-size: 15px;
+      font-weight: 600;
+      color: #888;
+      margin-bottom: 14px;
+    }
+
+    .todo-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid #f0f2f5;
+    }
+
+    .todo-item:last-child { border-bottom: none; }
+
+    .todo-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .todo-checkbox {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid #e0e0e0;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+
+    .todo-checkbox:hover {
+      border-color: #4f46e5;
+    }
+
+    .todo-text {
+      font-size: 15px;
+      color: #1a1a2e;
+    }
+
+    .todo-delete {
+      padding: 6px 12px;
+      background: #fef2f2;
+      color: #ef4444;
+      border: none;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .todo-delete:hover { background: #fee2e2; }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 0;
+      color: #aaa;
+    }
+
+    .empty-state p { font-size: 15px; margin-top: 8px; }
+
+    .loading {
+      text-align: center;
+      padding: 30px 0;
+      color: #aaa;
+      font-size: 14px;
+    }
+
+    /* Password strength */
+    .strength-bar {
+      height: 4px;
       border-radius: 4px;
+      background: #e0e0e0;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+
+    .strength-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.3s, background 0.3s;
+      width: 0%;
+    }
+
+    .strength-text {
+      font-size: 12px;
+      margin-top: 4px;
     }
   </style>
 </head>
 <body>
-  <h1>✅ My Todo List</h1>
-  <input type="text" id="todoInput" placeholder="Enter a task..." />
-  <button onclick="addTodo()">Add</button>
-  <ul id="todoList"></ul>
 
-  <script src="app.js"></script>
+  <!-- ─── AUTH ─── -->
+  <div id="auth-container">
+    <div class="auth-logo">
+      <h1>✅ TodoApp</h1>
+      <p>Stay organized, stay productive</p>
+    </div>
+
+    <!-- Login -->
+    <div id="login-form">
+      <p class="auth-title">Welcome back</p>
+      <div class="input-group">
+        <label>Email address</label>
+        <input type="email" id="login-email" placeholder="you@example.com" />
+      </div>
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="login-password" placeholder="••••••••" />
+      </div>
+      <button class="btn btn-primary" onclick="login()">Sign in</button>
+      <div class="divider">or</div>
+      <button class="btn btn-secondary" onclick="showSignup()">Create an account</button>
+      <div id="login-message" class="message"></div>
+    </div>
+
+    <!-- Signup -->
+    <div id="signup-form" style="display:none">
+      <p class="auth-title">Create your account</p>
+      <div class="input-group">
+        <label>Email address</label>
+        <input type="email" id="signup-email" placeholder="you@example.com" />
+      </div>
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="signup-password" placeholder="Min 8 characters" oninput="checkStrength(this.value)"/>
+        <div class="strength-bar"><div class="strength-fill" id="strength-fill"></div></div>
+        <p class="strength-text" id="strength-text"></p>
+      </div>
+      <div class="input-group">
+        <label>Confirm password</label>
+        <input type="password" id="signup-confirm" placeholder="Repeat your password" />
+      </div>
+      <button class="btn btn-primary" onclick="signup()">Create account</button>
+      <div class="divider">or</div>
+      <button class="btn btn-secondary" onclick="showLogin()">Back to sign in</button>
+      <div id="signup-message" class="message"></div>
+    </div>
+
+    <!-- Verify -->
+    <div id="verify-form" style="display:none">
+      <p class="auth-title">Check your email</p>
+      <p style="color:#888; font-size:14px; margin-bottom:20px">We sent a verification code to your email address.</p>
+      <div class="input-group">
+        <label>Verification code</label>
+        <input type="text" id="verify-code" placeholder="Enter 6-digit code" />
+      </div>
+      <button class="btn btn-primary" onclick="verify()">Verify email</button>
+      <div class="divider">or</div>
+      <button class="btn btn-secondary" onclick="showLogin()">Back to sign in</button>
+      <div id="verify-message" class="message"></div>
+    </div>
+  </div>
+
+  <!-- ─── APP ─── -->
+  <div id="app-container">
+    <div class="app-header">
+      <div class="app-header-left">
+        <h2>✅ TodoApp</h2>
+        <p id="user-email">Welcome!</p>
+      </div>
+      <button class="logout-btn" onclick="logout()">Sign out</button>
+    </div>
+
+    <div class="add-todo-card">
+      <input type="text" id="todoInput" placeholder="Add a new task..." />
+      <button class="add-btn" onclick="addTodo()">+ Add</button>
+    </div>
+
+    <div class="todos-card">
+      <p class="todos-header">MY TASKS</p>
+      <ul id="todoList" style="list-style:none; padding:0;"></ul>
+    </div>
+  </div>
+
+  <script src="app2.js"></script>
 </body>
 </html>
