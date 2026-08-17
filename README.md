@@ -1,29 +1,39 @@
-# ✅ Todo List App on AWS
+# ✅ TodoApp
 
-A full-stack todo app built on AWS as part of my SAA exam prep.
+A full-stack serverless todo application built on AWS, featuring user authentication, real-time data persistence, and global content delivery.
+
+## 🌐 Live Demo
+https://d38lg59locxq6.cloudfront.net
 
 ## 🏗️ Architecture
-Browser (S3) → API Gateway → Lambda (Python) → DynamoDB
-                                                    ↑
-                                              Cognito (auth)
-                                              CloudFront (CDN)
+Browser → CloudFront → S3 (Frontend)
+Browser → CloudFront → API Gateway → Lambda → DynamoDB
+↑
+Cognito (Auth)
+## ✨ Features
+- User signup, login and email verification
+- Each user sees only their own todos
+- Add and delete todos in real time
+- Data persists forever in the cloud
+- Secure JWT authentication
+- HTTPS everywhere
+- Fast global content delivery
 
-## 🛠️ AWS Services Used
-- S3 — static frontend hosting
-- API Gateway — REST API
-- Lambda — Python backend
-- DynamoDB — database
-- Cognito — user authentication
-- CloudFront — CDN
+## 🛠️ Tech Stack
 
-## 📅 Progress
-- [x] Week 1 - S3 static hosting
-- [x] Week 2 Day 1 - First Lambda function
-- [ ] Week 2 - API Gateway
-- [ ] Week 3 - DynamoDB
-- [ ] Week 4 - IAM + Security
-- [ ] Week 5 - Cognito Auth
-- [ ] Week 6 - CloudFront
+| Layer | Technology |
+|-------|-----------|
+| Frontend | HTML, CSS, JavaScript |
+| Hosting | AWS S3 + CloudFront |
+| Auth | AWS Cognito |
+| API | AWS API Gateway |
+| Backend | AWS Lambda (Python) |
+| Database | AWS DynamoDB |
+| Security | AWS IAM |
 
-## 🔗 Live URL
-http://todo-app-baterdene.s3-website-us-east-1.amazonaws.com
+## 🔐 Security
+- JWT tokens required for all API requests
+- Least privilege IAM policies
+- User data isolated by unique user ID
+- S3 bucket private — accessible only via CloudFront
+- CORS configured on API Gateway
